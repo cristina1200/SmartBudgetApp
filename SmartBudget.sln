@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37111.16 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBudget.Server", "SmartBudget.API\SmartBudget.Server.csproj", "{C550BCD8-6869-43ED-B4AA-9C0DAEA06BE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SmartBudget.Client", "SmartBudget.Client", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C550BCD8-6869-43ED-B4AA-9C0DAEA06BE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C550BCD8-6869-43ED-B4AA-9C0DAEA06BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C550BCD8-6869-43ED-B4AA-9C0DAEA06BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C550BCD8-6869-43ED-B4AA-9C0DAEA06BE9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94BDF03E-63F1-4A40-BF60-6F8C3ADEBEF0}
+	EndGlobalSection
+EndGlobal
