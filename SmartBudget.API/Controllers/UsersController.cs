@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SmartBudget.Server.DTOs.Users;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartBudget.Server.Services.Interfaces;
 
 namespace SmartBudget.Server.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
@@ -15,6 +16,7 @@ namespace SmartBudget.Server.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -36,21 +38,7 @@ namespace SmartBudget.Server.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateUserDto dto)
-        {
-            try
-            {
-                var user = await _userService.CreateAsync(dto);
-
-                return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

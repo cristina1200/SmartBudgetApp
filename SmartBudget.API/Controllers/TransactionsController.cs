@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartBudget.Server.DTOs.Transactions;
 using SmartBudget.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SmartBudget.Server.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase

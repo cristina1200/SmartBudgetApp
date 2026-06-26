@@ -17,6 +17,7 @@ namespace SmartBudget.Server.Data
         public DbSet<Transaction> Transactions { get; set; }
 
         public DbSet<Budget> Budgets { get; set; }
+        public DbSet<SavingGoal> SavingGoals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +57,20 @@ namespace SmartBudget.Server.Data
 
             modelBuilder.Entity<Budget>()
                 .Property(b => b.MonthlyLimit)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.SavingGoals)
+                .WithOne(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SavingGoal>()
+                .Property(s => s.TargetAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<SavingGoal>()
+                .Property(s => s.CurrentAmount)
                 .HasColumnType("decimal(18,2)");
         }
     }

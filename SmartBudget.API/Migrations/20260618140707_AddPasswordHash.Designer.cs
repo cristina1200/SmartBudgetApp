@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartBudget.Server.Data;
 
@@ -11,9 +12,11 @@ using SmartBudget.Server.Data;
 namespace SmartBudget.Server.Migrations
 {
     [DbContext(typeof(SmartBudgetDbContext))]
-    partial class SmartBudgetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260618140707_AddPasswordHash")]
+    partial class AddPasswordHash
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,40 +75,6 @@ namespace SmartBudget.Server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("SmartBudget.Server.Models.SavingGoal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Currency")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("CurrentAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("Deadline")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TargetAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SavingGoals");
                 });
 
             modelBuilder.Entity("SmartBudget.Server.Models.Transaction", b =>
@@ -171,9 +140,6 @@ namespace SmartBudget.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -197,17 +163,6 @@ namespace SmartBudget.Server.Migrations
                 {
                     b.HasOne("SmartBudget.Server.Models.User", "User")
                         .WithMany("Categories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SmartBudget.Server.Models.SavingGoal", b =>
-                {
-                    b.HasOne("SmartBudget.Server.Models.User", "User")
-                        .WithMany("SavingGoals")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -244,8 +199,6 @@ namespace SmartBudget.Server.Migrations
                     b.Navigation("Budgets");
 
                     b.Navigation("Categories");
-
-                    b.Navigation("SavingGoals");
 
                     b.Navigation("Transactions");
                 });
