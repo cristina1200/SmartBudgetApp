@@ -1,0 +1,69 @@
+.page-card {
+    margin-bottom: 24px;
+}
+
+.form-grid {
+    align-items: end;
+}
+
+.goal-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.goal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+    .goal-header h2 {
+        margin: 0;
+        font-size: 20px;
+        color: var(--white);
+    }
+
+.goal-card p,
+.goal-card span {
+    color: var(--muted);
+    margin: 0;
+}
+
+.add-money {
+    display: grid;
+    grid-template-columns: 1fr 90px auto;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.goal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.icon-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 9px 11px;
+    color: white;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+    .icon-btn.danger {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+    }
+
+.empty-state {
+    color: var(--muted);
+}
+
+@media (max-width: 700px) {
+    .add-money,
+    .goal-actions {
+        grid-template-columns: 1fr;
+    }
+}

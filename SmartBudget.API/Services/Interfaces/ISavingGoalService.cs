@@ -10,6 +10,8 @@ namespace SmartBudget.Server.Services.Interfaces
 
         Task<SavingGoalResponseDto?> GetByIdAsync(int id);
 
+        Task<SavingGoalDetailsDto?> GetDetailsAsync(int id);
+
         Task<SavingGoalResponseDto?> CreateAsync(CreateSavingGoalDto dto);
 
         Task<SavingGoalResponseDto?> UpdateAsync(int id, UpdateSavingGoalDto dto);

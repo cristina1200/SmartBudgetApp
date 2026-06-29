@@ -19,5 +19,8 @@ namespace SmartBudget.Server.Models
         public int UserId { get; set; }
 
         public User User { get; set; } = null!;
+
+        public ICollection<SavingGoalContribution> Contributions { get; set; } =
+            new List<SavingGoalContribution>();
     }
 }

@@ -6,6 +6,8 @@ namespace SmartBudget.Server.DTOs.SavingGoals
     {
         public decimal Amount { get; set; }
 
-        public SmartBudget.Server.Enums.Currency Currency { get; set; } = SmartBudget.Server.Enums.Currency.RON;
+        public Currency Currency { get; set; } = Currency.RON;
+
+        public string? Note { get; set; }
     }
 }

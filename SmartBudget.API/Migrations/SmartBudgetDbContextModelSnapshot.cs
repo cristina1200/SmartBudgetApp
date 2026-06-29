@@ -108,6 +108,39 @@ namespace SmartBudget.Server.Migrations
                     b.ToTable("SavingGoals");
                 });
 
+            modelBuilder.Entity("SmartBudget.Server.Models.SavingGoalContribution", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OriginalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("SavingGoalId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SavingGoalId");
+
+                    b.ToTable("SavingGoalContributions");
+                });
+
             modelBuilder.Entity("SmartBudget.Server.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -215,6 +248,17 @@ namespace SmartBudget.Server.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SmartBudget.Server.Models.SavingGoalContribution", b =>
+                {
+                    b.HasOne("SmartBudget.Server.Models.SavingGoal", "SavingGoal")
+                        .WithMany("Contributions")
+                        .HasForeignKey("SavingGoalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SavingGoal");
+                });
+
             modelBuilder.Entity("SmartBudget.Server.Models.Transaction", b =>
                 {
                     b.HasOne("SmartBudget.Server.Models.Category", "Category")
@@ -237,6 +281,11 @@ namespace SmartBudget.Server.Migrations
             modelBuilder.Entity("SmartBudget.Server.Models.Category", b =>
                 {
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("SmartBudget.Server.Models.SavingGoal", b =>
+                {
+                    b.Navigation("Contributions");
                 });
 
             modelBuilder.Entity("SmartBudget.Server.Models.User", b =>

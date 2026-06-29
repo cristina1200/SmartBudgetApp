@@ -1,0 +1,19 @@
+.profile-card {
+    max-width: 520px;
+    text-align: center;
+    margin: 40px auto;
+}
+
+    .profile-card i {
+        font-size: 84px;
+        color: var(--pink);
+        margin-bottom: 18px;
+    }
+
+    .profile-card h2 {
+        margin-bottom: 6px;
+    }
+
+    .profile-card p {
+        color: var(--muted);
+    }

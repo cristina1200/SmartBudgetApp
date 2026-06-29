@@ -1,0 +1,33 @@
+.page-card {
+    margin-bottom: 24px;
+}
+
+.form-grid {
+    align-items: end;
+}
+
+.grid-span-2 {
+    grid-column: span 2;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.empty-table {
+    text-align: center;
+    color: var(--muted);
+}
+
+.icon-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 9px 11px;
+    color: white;
+    background: rgba(255,255,255,0.12);
+}
+
+    .icon-btn.danger {
+        background: rgba(239,68,68,0.2);
+        color: #fca5a5;
+    }

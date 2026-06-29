@@ -47,6 +47,19 @@ namespace SmartBudget.Server.Controllers
             return Ok(goal);
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> GetDetails(int id)
+        {
+            var details = await _savingGoalService.GetDetailsAsync(id);
+
+            if (details == null)
+            {
+                return NotFound("Saving goal not found.");
+            }
+
+            return Ok(details);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateSavingGoalDto dto)
         {

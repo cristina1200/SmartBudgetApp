@@ -17,7 +17,10 @@ namespace SmartBudget.Server.Data
         public DbSet<Transaction> Transactions { get; set; }
 
         public DbSet<Budget> Budgets { get; set; }
+
         public DbSet<SavingGoal> SavingGoals { get; set; }
+
+        public DbSet<SavingGoalContribution> SavingGoalContributions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,11 +48,23 @@ namespace SmartBudget.Server.Data
                 .HasForeignKey(b => b.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.SavingGoals)
+                .WithOne(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Category>()
                 .HasMany(c => c.Transactions)
                 .WithOne(t => t.Category)
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SavingGoal>()
+                .HasMany(s => s.Contributions)
+                .WithOne(c => c.SavingGoal)
+                .HasForeignKey(c => c.SavingGoalId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Transaction>()
                 .Property(t => t.Amount)
@@ -59,18 +74,20 @@ namespace SmartBudget.Server.Data
                 .Property(b => b.MonthlyLimit)
                 .HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.SavingGoals)
-                .WithOne(s => s.User)
-                .HasForeignKey(s => s.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<SavingGoal>()
                 .Property(s => s.TargetAmount)
                 .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<SavingGoal>()
                 .Property(s => s.CurrentAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<SavingGoalContribution>()
+                .Property(c => c.Amount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<SavingGoalContribution>()
+                .Property(c => c.OriginalAmount)
                 .HasColumnType("decimal(18,2)");
         }
     }

@@ -1,0 +1,40 @@
+﻿namespace SmartBudget.Client.wwwroot.SavingGoals
+{
+    public class saving_goal_details
+    {
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saving Goal Details | SmartBudget</title>
+
+    <link rel="stylesheet" href="../Shared/global.css">
+    <link rel="stylesheet" href="./saving-goals.css">
+    <link rel="stylesheet" href="./saving-goal-details.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="app-bg" data-page="saving-goals" data-title="Saving Goal Details">
+    <div class="app-layout">
+        <aside id="sidebar" class="sidebar"></aside>
+
+        <main class="main-content">
+            <header id="topbar" class="topbar"></header>
+
+            <section id="detailsContainer"></section>
+        </main>
+    </div>
+
+    <script src="../Shared/config.js"></script>
+    <script src="../Shared/api.js"></script>
+    <script src="../Shared/auth.js"></script>
+    <script src="../Shared/helpers.js"></script>
+    <script src="../Shared/layout.js"></script>
+    <script src="../Shared/modal.js"></script>
+    <script src="../Shared/notifications.js"></script>
+    <script src="./saving-goal-details.js"></script>
+</body>
+</html>

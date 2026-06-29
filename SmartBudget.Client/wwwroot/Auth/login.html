@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SmartBudget</title>
+
+    <link rel="stylesheet" href="../Shared/global.css">
+    <link rel="stylesheet" href="./login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="auth-page" data-auth-page="login">
+
+    <button id="themeToggle" class="auth-theme-toggle" title="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-moon"></i>
+    </button>
+
+    <div class="auth-shell">
+        <section class="auth-left">
+            <div class="auth-logo-text">
+                <img src="../Assets/logos/logo-dark.png" alt="SmartBudget logo">
+                <span>SmartBudget</span>
+            </div>
+
+            <h1>Welcome back!</h1>
+            <p class="auth-subtitle">
+                Login to manage your budget, savings and financial goals.
+            </p>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="cristina@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="Enter your password" required>
+
+                        <button type="button" id="togglePassword" class="password-toggle">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="auth-btn" type="submit">Login</button>
+
+                <p id="loginMessage" class="auth-message"></p>
+            </form>
+
+            <p class="auth-link">
+                Don't have an account?
+                <a href="./register.html">Create one</a>
+            </p>
+        </section>
+
+        <section class="auth-right">
+            <div class="hero-illustration">
+                <img src="../Assets/illustrations/login-dark.png" alt="Login illustration">
+
+                <h2>Track smarter. Save faster.</h2>
+                <p>
+                    All your transactions, budgets and saving goals in one simple dashboard.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script src="../Shared/config.js"></script>
+    <script src="../Shared/api.js"></script>
+    <script src="../Shared/auth.js"></script>
+    <script src="../Shared/helpers.js"></script>
+    <script src="./login.js"></script>
+</body>
+</html>

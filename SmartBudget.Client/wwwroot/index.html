@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartBudget</title>
+
+    <link rel="icon" type="image/svg+xml" href="Assets/logos/favicon.svg" />
+    <link rel="stylesheet" href="Shared/global.css" />
+    <link rel="stylesheet" href="Landing/landing.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body class="landing-page">
+    <button id="themeToggle" class="landing-theme-toggle" title="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-moon"></i>
+    </button>
+
+    <header class="landing-header">
+        <div class="landing-brand">
+            <img id="landingLogo" src="Assets/logos/logo-dark.png" alt="SmartBudget Logo" />
+            <div>
+                <h1>SmartBudget</h1>
+                <p>Plan • Save • Achieve</p>
+            </div>
+        </div>
+
+        <nav class="landing-nav">
+            <a href="Auth/login.html" class="nav-link">Login</a>
+            <a href="Auth/register.html" class="nav-btn">Create Account</a>
+        </nav>
+    </header>
+
+    <main class="landing-main">
+        <section class="hero-section">
+            <div class="hero-text">
+                <span class="hero-badge">Smart personal finance management</span>
+                <h2>Take control of your money, one smart decision at a time.</h2>
+                <p>
+                    SmartBudget helps you organize your income, expenses, budgets and saving goals
+                    in one modern application, designed to make personal finance simpler and clearer.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="Auth/register.html" class="primary-btn">Get Started</a>
+                    <a href="Auth/login.html" class="secondary-btn">I already have an account</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <img src="Assets/money/wallet.png" alt="Wallet" class="money-icon" />
+                        <div>
+                            <strong>Track transactions</strong>
+                            <span>See where your money goes</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <img src="Assets/money/piggybank.png" alt="Savings" class="money-icon" />
+                        <div>
+                            <strong>Save smarter</strong>
+                            <span>Create and follow saving goals</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <img src="Assets/money/stack-coins.png" alt="Budget" class="money-icon" />
+                        <div>
+                            <strong>Budget better</strong>
+                            <span>Stay in control each month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <img id="heroIllustration" src="Assets/illustrations/login-dark.png" alt="SmartBudget illustration" />
+            </div>
+        </section>
+
+        <section class="info-slider-section">
+            <div class="section-heading">
+                <h3>Why SmartBudget?</h3>
+                <p>Explore how the app helps you plan, monitor and improve your financial habits.</p>
+            </div>
+
+            <div class="slider-wrapper">
+                <button class="slider-btn prev" id="prevSlide">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <div class="slider-track-container">
+                    <div class="slider-track" id="sliderTrack">
+                        <article class="slide-card active">
+                            <img id="slide1Image" src="Assets/illustrations/empty-transactions-dark.png" alt="Transactions" />
+                            <h4>Monitor your transactions</h4>
+                            <p>
+                                Record your income and expenses, classify them by category and understand
+                                your spending habits more clearly.
+                            </p>
+                        </article>
+
+                        <article class="slide-card">
+                            <img id="slide2Image" src="Assets/illustrations/empty-savings-dark.png" alt="Savings goals" />
+                            <h4>Build saving goals</h4>
+                            <p>
+                                Create personal savings targets, such as vacations, gadgets or emergency funds,
+                                and follow your progress step by step.
+                            </p>
+                        </article>
+
+                        <article class="slide-card">
+                            <img id="slide3Image" src="Assets/illustrations/no-data-dark.png" alt="Budgets and insights" />
+                            <h4>Stay on budget</h4>
+                            <p>
+                                Set monthly budgets and compare your actual spending with your plan,
+                                so you can make better financial decisions.
+                            </p>
+                        </article>
+
+                        <article class="slide-card">
+                            <img id="slide4Image" src="Assets/illustrations/register-dark.png" alt="Secure and simple" />
+                            <h4>Simple and accessible</h4>
+                            <p>
+                                SmartBudget is designed with a clean interface, friendly visuals and day/night mode,
+                                making the experience intuitive and pleasant.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+
+                <button class="slider-btn next" id="nextSlide">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="slider-dots" id="sliderDots"></div>
+        </section>
+
+        <section class="features-section">
+            <div class="section-heading">
+                <h3>Main features</h3>
+                <p>Everything important in one place.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <img src="Assets/categories/food.png" alt="Categories" class="feature-icon" />
+                    <h4>Custom categories</h4>
+                    <p>Organize your transactions by categories such as food, shopping, transport or bills.</p>
+                </div>
+
+                <div class="feature-card">
+                    <img src="Assets/money/coin.png" alt="Income and expenses" class="feature-icon" />
+                    <h4>Income & expenses</h4>
+                    <p>Add transactions quickly and keep a complete record of your financial activity.</p>
+                </div>
+
+                <div class="feature-card">
+                    <img src="Assets/money/wallet.png" alt="Budgets" class="feature-icon" />
+                    <h4>Monthly budgets</h4>
+                    <p>Plan your budget in advance and compare expected versus actual spending.</p>
+                </div>
+
+                <div class="feature-card">
+                    <img src="Assets/money/piggybank.png" alt="Goals" class="feature-icon" />
+                    <h4>Saving goals</h4>
+                    <p>Set financial objectives and save gradually toward what matters to you.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h3>Ready to start managing your budget smarter?</h3>
+                <p>Create your account and start building better financial habits with SmartBudget.</p>
+                <div class="cta-actions">
+                    <a href="Auth/register.html" class="primary-btn">Create Account</a>
+                    <a href="Auth/login.html" class="secondary-btn">Login</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="Landing/landing.js"></script>
+</body>
+</html>

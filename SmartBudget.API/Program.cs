@@ -13,7 +13,6 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -74,38 +73,44 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                             builder.Configuration["Jwt:Key"]!))
             };
     });
-//dependency injection for repositories and services
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
-builder.Services.AddScoped<IDashboardService, DashboardService>();
-
-//for budget impl
-builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
-builder.Services.AddScoped<IBudgetService, BudgetService>();
-
-//for auth impl
-builder.Services.AddScoped<IJwtService, JwtService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-//for saving goal impl
-builder.Services.AddScoped<ISavingGoalRepository, SavingGoalRepository>();
-builder.Services.AddScoped<ISavingGoalService, SavingGoalService>();
-
-builder.Services.AddHttpClient<ICurrencyConverterService, CurrencyConverterService>(); builder.Services.AddCors(options =>
+builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins("http://127.0.0.1:5500", "http://localhost:5500")
+            .WithOrigins(
+                "https://localhost:7084",
+                "http://localhost:5062",
+                "http://127.0.0.1:5500",
+                "http://localhost:5500")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
+
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
+builder.Services.AddScoped<ISavingGoalRepository, SavingGoalRepository>();
+builder.Services.AddScoped<ISavingGoalContributionRepository, SavingGoalContributionRepository>();
+
+// Services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IBudgetService, BudgetService>();
+builder.Services.AddScoped<ISavingGoalService, SavingGoalService>();
+
+// Auth
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Currency converter
+builder.Services.AddHttpClient<ICurrencyConverterService, CurrencyConverterService>();
 
 var app = builder.Build();
 
@@ -114,6 +119,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");

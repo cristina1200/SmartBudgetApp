@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SmartBudget</title>
+
+    <link rel="stylesheet" href="../Shared/global.css">
+    <link rel="stylesheet" href="./dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="app-bg" data-page="dashboard" data-title="Dashboard">
+
+    <div class="app-layout">
+        <aside id="sidebar" class="sidebar"></aside>
+
+        <main class="main-content">
+            <header id="topbar" class="topbar"></header>
+
+            <section class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon income">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Income</span>
+                        <strong id="totalIncome">0 RON</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon expense">
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Expenses</span>
+                        <strong id="totalExpenses">0 RON</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon balance">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+
+                    <div>
+                        <span>Current Balance</span>
+                        <strong id="balance">0 RON</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon transactions">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+
+                    <div>
+                        <span>Transactions</span>
+                        <strong id="transactionsCount">0</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Recent transactions</h2>
+                        <a href="../Transactions/transactions.html">View all</a>
+                    </div>
+
+                    <div id="recentTransactions"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Saving goals</h2>
+                        <a href="../SavingGoals/saving-goals.html">View all</a>
+                    </div>
+
+                    <div id="goalsPreview"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../Shared/config.js"></script>
+    <script src="../Shared/api.js"></script>
+    <script src="../Shared/auth.js"></script>
+    <script src="../Shared/helpers.js"></script>
+    <script src="../Shared/layout.js"></script>
+    <script src="./dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+.stats-grid {
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+    .stat-card i {
+        font-size: 28px;
+        color: var(--pink);
+    }
+
+    .stat-card span, .muted-text {
+        color: var(--muted);
+    }
+
+    .stat-card strong {
+        font-size: 26px;
+    }
