@@ -1,3 +1,7 @@
+.page-card {
+    margin-bottom: 24px;
+}
+
 .table-wrapper {
     overflow-x: auto;
 }
@@ -5,6 +9,7 @@
 .empty-table {
     text-align: center;
     color: var(--muted);
+    padding: 24px;
 }
 
 .icon-btn {
@@ -12,10 +17,15 @@
     border-radius: 12px;
     padding: 9px 11px;
     color: white;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255, 255, 255, 0.12);
 }
 
     .icon-btn.danger {
-        background: rgba(239,68,68,0.2);
+        background: rgba(239, 68, 68, 0.2);
         color: #fca5a5;
     }
+
+body.light-mode .icon-btn.danger {
+    background: rgba(239, 68, 68, 0.14);
+    color: #ef4444;
+}

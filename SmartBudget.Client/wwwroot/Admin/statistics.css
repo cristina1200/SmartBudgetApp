@@ -1,22 +1,74 @@
-.stats-grid {
+.page-card {
     margin-bottom: 24px;
 }
 
-.stat-card {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
 }
 
-    .stat-card i {
-        font-size: 28px;
+.admin-stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 150px;
+}
+
+    .admin-stat-card i {
         color: var(--pink);
+        font-size: 28px;
     }
 
-    .stat-card span, .muted-text {
+    .admin-stat-card span {
         color: var(--muted);
+        font-size: 15px;
     }
 
-    .stat-card strong {
-        font-size: 26px;
+    .admin-stat-card strong {
+        color: var(--white);
+        font-size: 30px;
+        font-weight: 900;
     }
+
+.admin-totals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+    .admin-totals-grid div {
+        padding: 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+body.light-mode .admin-totals-grid div {
+    background: rgba(244, 91, 155, 0.08);
+}
+
+.admin-totals-grid span {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.admin-totals-grid strong {
+    color: var(--white);
+    font-size: 22px;
+}
+
+@media (max-width: 1100px) {
+    .admin-stats-grid,
+    .admin-totals-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .admin-stats-grid,
+    .admin-totals-grid {
+        grid-template-columns: 1fr;
+    }
+}

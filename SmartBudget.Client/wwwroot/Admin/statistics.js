@@ -1,28 +1,45 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    requireAdmin();
+    requireAuth();
+
     renderSidebar("admin-statistics");
     renderTopbar("Statistics");
+
+    if (getRole() !== "Admin") {
+        showToast("Access denied. Admin only.", "error");
+        window.location.href = "../Dashboard/dashboard.html";
+        return;
+    }
+
     await loadStatistics();
 });
 
 async function loadStatistics() {
     try {
-        const [users, transactions, budgets, goals] = await Promise.all([
-            apiRequest("/Users"),
-            apiRequest("/Transactions"),
-            apiRequest("/Budgets"),
-            apiRequest("/SavingGoals")
-        ]);
+        const users = await apiRequest("/Users");
+        const transactions = await apiRequest("/Transactions");
+        const budgets = await apiRequest("/Budgets");
+        const savingGoals = await apiRequest("/SavingGoals");
 
-        document.getElementById("usersCount").textContent = users.length;
-        document.getElementById("transactionsCount").textContent = transactions.length;
-        document.getElementById("budgetsCount").textContent = budgets.length;
-        document.getElementById("goalsCount").textContent = goals.length;
+        const totalIncome = transactions
+            .filter(t => transactionTypeText(t.type) === "Income")
+            .reduce((sum, item) => sum + Number(item.amount || 0), 0);
 
-        const income = transactions.filter(t => transactionTypeText(t.type) === "Income").reduce((sum, t) => sum + Number(t.amount || 0), 0);
-        const expenses = transactions.filter(t => transactionTypeText(t.type) === "Expense").reduce((sum, t) => sum + Number(t.amount || 0), 0);
-        document.getElementById("systemTotals").textContent = `Total income: ${formatMoney(income)} | Total expenses: ${formatMoney(expenses)} | Balance: ${formatMoney(income - expenses)}`;
+        const totalExpenses = transactions
+            .filter(t => transactionTypeText(t.type) === "Expense")
+            .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+
+        const totalBalance = totalIncome - totalExpenses;
+
+        document.getElementById("usersCount").textContent = users.length || 0;
+        document.getElementById("transactionsCount").textContent = transactions.length || 0;
+        document.getElementById("budgetsCount").textContent = budgets.length || 0;
+        document.getElementById("savingGoalsCount").textContent = savingGoals.length || 0;
+
+        document.getElementById("totalIncome").textContent = formatMoney(totalIncome);
+        document.getElementById("totalExpenses").textContent = formatMoney(totalExpenses);
+        document.getElementById("totalBalance").textContent = formatMoney(totalBalance);
     } catch (error) {
-        showToast("Statistics could not be loaded. Check admin permissions.", "error");
+        console.error(error);
+        showToast("Statistics could not be loaded.", "error");
     }
 }

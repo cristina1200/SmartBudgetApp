@@ -112,6 +112,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 // Currency converter
 builder.Services.AddHttpClient<ICurrencyConverterService, CurrencyConverterService>();
 
+builder.Services.AddScoped<IReceiptOcrService, ReceiptOcrService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -18,6 +18,7 @@ function applyTheme() {
 
 function toggleTheme() {
     const nextTheme = isLightTheme() ? "dark" : "light";
+
     localStorage.setItem("theme", nextTheme);
 
     applyTheme();
@@ -68,35 +69,6 @@ function currentIllustration(name) {
     return paths[name] || paths.noData;
 }
 
-function themeImageHtml(name, altText) {
-    const lightPath = {
-        login: "../Assets/illustrations/login.png",
-        register: "../Assets/illustrations/register.png",
-        transactions: "../Assets/illustrations/empty-transactions.png",
-        savings: "../Assets/illustrations/empty-savings.png",
-        noData: "../Assets/illustrations/no-data.png"
-    };
-
-    const darkPath = {
-        login: "../Assets/illustrations/login-dark.png",
-        register: "../Assets/illustrations/register-dark.png",
-        transactions: "../Assets/illustrations/empty-transactions-dark.png",
-        savings: "../Assets/illustrations/empty-savings-dark.png",
-        noData: "../Assets/illustrations/no-data-dark.png"
-    };
-
-    const src = isLightTheme() ? lightPath[name] : darkPath[name];
-
-    return `
-        <img 
-            class="empty-visual theme-image"
-            src="${src}"
-            data-light-src="${lightPath[name]}"
-            data-dark-src="${darkPath[name]}"
-            alt="${safeText(altText)}"
-        >`;
-}
-
 function updateThemeAssets() {
     const themeIcon = document.getElementById("themeIcon");
 
@@ -126,9 +98,13 @@ function renderSidebar(activePage) {
 
     const sidebar = document.getElementById("sidebar");
 
-    if (!sidebar) return;
+    if (!sidebar) {
+        return;
+    }
 
-    const adminLinks = getRole() === "Admin"
+    const isAdmin = getRole && getRole() === "Admin";
+
+    const adminLinks = isAdmin
         ? `
             <a class="${activePage === "admin-users" ? "active" : ""}" href="../Admin/users.html">
                 <i class="fa-solid fa-users-gear"></i>
@@ -138,7 +114,8 @@ function renderSidebar(activePage) {
             <a class="${activePage === "admin-statistics" ? "active" : ""}" href="../Admin/statistics.html">
                 <i class="fa-solid fa-chart-pie"></i>
                 Statistics
-            </a>`
+            </a>
+        `
         : "";
 
     sidebar.innerHTML = `
@@ -146,8 +123,6 @@ function renderSidebar(activePage) {
             <img 
                 class="brand-logo"
                 src="${currentLogoPath()}"
-                data-light-src="../Assets/logos/logo-light.png"
-                data-dark-src="../Assets/logos/logo-dark.png"
                 alt="SmartBudget logo"
             >
 
@@ -202,7 +177,9 @@ function renderTopbar(title) {
 
     const topbar = document.getElementById("topbar");
 
-    if (!topbar) return;
+    if (!topbar) {
+        return;
+    }
 
     const themeIconClass = isLightTheme()
         ? "fa-solid fa-sun"
@@ -222,8 +199,6 @@ function renderTopbar(title) {
             <img 
                 class="user-avatar"
                 src="${currentAvatarPath()}"
-                data-light-src="../Assets/profile/default-avatar.png"
-                data-dark-src="../Assets/profile/default-avatar-dark.png"
                 alt="User avatar"
             >
 

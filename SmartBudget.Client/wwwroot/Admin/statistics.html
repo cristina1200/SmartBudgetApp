@@ -3,19 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Shared/global.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="./statistics.css">
     <title>Statistics | SmartBudget</title>
+
+    <link rel="stylesheet" href="../Shared/global.css">
+    <link rel="stylesheet" href="./statistics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
-<body class="app-bg">
-    <div class="app-layout"><aside id="sidebar" class="sidebar"></aside><main class="main-content"><div id="topbar" class="topbar"></div><section class="grid grid-4 stats-grid"><div class="card stat-card"><i class="fa-solid fa-users"></i><span>Users</span><strong id="usersCount">0</strong></div><div class="card stat-card"><i class="fa-solid fa-receipt"></i><span>Transactions</span><strong id="transactionsCount">0</strong></div><div class="card stat-card"><i class="fa-solid fa-wallet"></i><span>Budgets</span><strong id="budgetsCount">0</strong></div><div class="card stat-card"><i class="fa-solid fa-piggy-bank"></i><span>Saving goals</span><strong id="goalsCount">0</strong></div></section><section class="card"><h2>System totals</h2><p id="systemTotals" class="muted-text"></p></section></main></div>
+
+<body class="app-bg" data-page="admin-statistics" data-title="Statistics">
+    <div class="app-layout">
+        <aside id="sidebar" class="sidebar"></aside>
+
+        <main class="main-content">
+            <header id="topbar" class="topbar"></header>
+
+            <section class="admin-stats-grid">
+                <div class="card admin-stat-card">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Users</span>
+                    <strong id="usersCount">0</strong>
+                </div>
+
+                <div class="card admin-stat-card">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Transactions</span>
+                    <strong id="transactionsCount">0</strong>
+                </div>
+
+                <div class="card admin-stat-card">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Budgets</span>
+                    <strong id="budgetsCount">0</strong>
+                </div>
+
+                <div class="card admin-stat-card">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                    <span>Saving goals</span>
+                    <strong id="savingGoalsCount">0</strong>
+                </div>
+            </section>
+
+            <section class="card page-card">
+                <div class="section-title">
+                    <h2>System totals</h2>
+                </div>
+
+                <div class="admin-totals-grid">
+                    <div>
+                        <span>Total income</span>
+                        <strong id="totalIncome">0 RON</strong>
+                    </div>
+
+                    <div>
+                        <span>Total expenses</span>
+                        <strong id="totalExpenses">0 RON</strong>
+                    </div>
+
+                    <div>
+                        <span>Total balance</span>
+                        <strong id="totalBalance">0 RON</strong>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
     <script src="../Shared/config.js"></script>
     <script src="../Shared/api.js"></script>
     <script src="../Shared/auth.js"></script>
     <script src="../Shared/helpers.js"></script>
     <script src="../Shared/layout.js"></script>
-    <script src="../Shared/modal.js"></script>
     <script src="../Shared/notifications.js"></script>
     <script src="./statistics.js"></script>
 </body>

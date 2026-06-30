@@ -44,6 +44,7 @@ async function apiRequest(endpoint, method = "GET", body = null) {
         if (endpoint !== "/Auth/login") {
             logout();
         }
+
         throw new Error("Unauthorized request.");
     }
 
@@ -59,13 +60,34 @@ async function apiRequest(endpoint, method = "GET", body = null) {
     return await response.json();
 }
 
-function requireAuth() {
-    if (!getToken()) {
-        window.location.href = "../Auth/login.html";
-    }
-}
+async function apiUpload(endpoint, formData, method = "POST") {
+    const headers = {};
 
-function logout() {
-    localStorage.clear();
-    window.location.href = "../Auth/login.html";
+    const token = getToken();
+
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method,
+        headers,
+        body: formData
+    });
+
+    if (response.status === 401 || response.status === 403) {
+        logout();
+        throw new Error("Unauthorized request.");
+    }
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Upload failed.");
+    }
+
+    if (response.status === 204) {
+        return null;
+    }
+
+    return await response.json();
 }
