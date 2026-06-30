@@ -1,4 +1,5 @@
 ﻿using SmartBudget.Server.DTOs.Transactions;
+using SmartBudget.Server.Enums;
 using SmartBudget.Server.Models;
 using SmartBudget.Server.Repositories.Interfaces;
 using SmartBudget.Server.Services.Interfaces;
@@ -10,15 +11,18 @@ namespace SmartBudget.Server.Services.Implementations
         private readonly ITransactionRepository _transactionRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly INotificationService _notificationService;
 
         public TransactionService(
             ITransactionRepository transactionRepository,
             IUserRepository userRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            INotificationService notificationService)
         {
             _transactionRepository = transactionRepository;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
+            _notificationService = notificationService;
         }
 
         public async Task<List<TransactionResponseDto>> GetAllAsync()
@@ -104,6 +108,11 @@ namespace SmartBudget.Server.Services.Implementations
             };
 
             var createdTransaction = await _transactionRepository.CreateAsync(transaction);
+
+            if (dto.Type == TransactionType.Expense)
+            {
+                await _notificationService.CheckMonthlyBudgetAsync(dto.UserId);
+            }
 
             var completeTransaction = await _transactionRepository.GetByIdAsync(createdTransaction.Id);
 

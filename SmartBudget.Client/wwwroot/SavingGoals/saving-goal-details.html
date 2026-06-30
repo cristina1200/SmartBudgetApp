@@ -1,10 +1,4 @@
-﻿namespace SmartBudget.Client.wwwroot.SavingGoals
-{
-    public class saving_goal_details
-    {
-    }
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,19 +6,143 @@
     <title>Saving Goal Details | SmartBudget</title>
 
     <link rel="stylesheet" href="../Shared/global.css">
-    <link rel="stylesheet" href="./saving-goals.css">
     <link rel="stylesheet" href="./saving-goal-details.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
-
 <body class="app-bg" data-page="saving-goals" data-title="Saving Goal Details">
+
     <div class="app-layout">
         <aside id="sidebar" class="sidebar"></aside>
 
         <main class="main-content">
             <header id="topbar" class="topbar"></header>
 
-            <section id="detailsContainer"></section>
+            <a href="./saving-goals.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to saving goals
+            </a>
+
+            <section class="goal-details-grid">
+                <div class="card goal-main-card">
+                    <div class="goal-main-header">
+                        <div>
+                            <h2 id="goalName">Saving goal</h2>
+                            <p id="goalPredictionText" class="goal-subtitle">
+                                Goal prediction will appear here.
+                            </p>
+                        </div>
+
+                        <div class="goal-icon-badge">
+                            <i class="fa-solid fa-piggy-bank"></i>
+                        </div>
+                    </div>
+
+                    <div class="goal-summary-grid">
+                        <div class="goal-summary-item">
+                            <span>Target amount</span>
+                            <strong id="goalTargetAmount">0 RON</strong>
+                        </div>
+
+                        <div class="goal-summary-item">
+                            <span>Already saved</span>
+                            <strong id="goalCurrentAmount">0 RON</strong>
+                        </div>
+
+                        <div class="goal-summary-item">
+                            <span>Remaining</span>
+                            <strong id="goalRemainingAmount">0 RON</strong>
+                        </div>
+                    </div>
+
+                    <div class="goal-progress-section">
+                        <div class="goal-progress-labels">
+                            <span>Progress</span>
+                            <strong id="goalProgressPercent">0%</strong>
+                        </div>
+
+                        <div class="progress">
+                            <div id="goalProgressBar" class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="goal-prediction-box">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span id="goalPredictionBoxText">
+                            At your current pace, you can complete this goal in about - week(s).
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card goal-overview-card">
+                    <h3>Goal overview</h3>
+
+                    <div class="goal-circle-card">
+                        <div id="goalProgressCircle" class="goal-progress-circle">
+                            <span id="goalProgressCircleValue">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="goal-overview-stats">
+                        <div class="goal-overview-item">
+                            <span>Estimated time</span>
+                            <strong id="overviewEstimatedTime">-</strong>
+                        </div>
+
+                        <div class="goal-overview-item">
+                            <span>Recommended weekly contribution</span>
+                            <strong id="overviewRecommendedWeekly">0 RON</strong>
+                        </div>
+
+                        <div class="goal-overview-item">
+                            <span>Deadline</span>
+                            <strong id="overviewDeadline">-</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="goal-bottom-grid">
+                <div class="card">
+                    <h3>Smart statistics</h3>
+
+                    <div class="statistics-grid">
+                        <div class="stat-box">
+                            <span>Total contributed</span>
+                            <strong id="statTotalContributed">0 RON</strong>
+                        </div>
+
+                        <div class="stat-box">
+                            <span>Average weekly saving</span>
+                            <strong id="statAverageWeekly">0 RON</strong>
+                        </div>
+
+                        <div class="stat-box">
+                            <span>Average monthly saving</span>
+                            <strong id="statAverageMonthly">0 RON</strong>
+                        </div>
+
+                        <div class="stat-box">
+                            <span>Estimated time</span>
+                            <strong id="statEstimatedTime">-</strong>
+                        </div>
+
+                        <div class="stat-box">
+                            <span>Estimated completion</span>
+                            <strong id="statEstimatedCompletion">-</strong>
+                        </div>
+
+                        <div class="stat-box">
+                            <span>Recommended weekly amount</span>
+                            <strong id="statRecommendedWeekly">0 RON</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Contribution history</h3>
+                    <div id="contributionHistory" class="contribution-history"></div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -33,8 +151,6 @@
     <script src="../Shared/auth.js"></script>
     <script src="../Shared/helpers.js"></script>
     <script src="../Shared/layout.js"></script>
-    <script src="../Shared/modal.js"></script>
-    <script src="../Shared/notifications.js"></script>
     <script src="./saving-goal-details.js"></script>
 </body>
 </html>

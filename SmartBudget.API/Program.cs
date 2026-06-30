@@ -96,6 +96,7 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddScoped<ISavingGoalRepository, SavingGoalRepository>();
 builder.Services.AddScoped<ISavingGoalContributionRepository, SavingGoalContributionRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -113,6 +114,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddHttpClient<ICurrencyConverterService, CurrencyConverterService>();
 
 builder.Services.AddScoped<IReceiptOcrService, ReceiptOcrService>();
+
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,136 @@
+﻿.notifications-page-card {
+    padding: 28px;
+}
+
+.notifications-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+    .notifications-page-header h2 {
+        margin: 0 0 6px;
+        color: var(--white);
+        font-size: 24px;
+        font-weight: 900;
+    }
+
+    .notifications-page-header p {
+        margin: 0;
+        color: var(--muted);
+    }
+
+.secondary-btn {
+    width: auto;
+    padding: 12px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notifications-page-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.notification-page-item {
+    padding: 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.light-mode .notification-page-item {
+    background: rgba(244, 91, 155, 0.06);
+}
+
+.notification-page-item.unread {
+    border-color: rgba(244, 91, 155, 0.55);
+    box-shadow: 0 0 0 1px rgba(244, 91, 155, 0.12);
+}
+
+.notification-page-item.warning {
+    border-left: 6px solid #f59e0b;
+}
+
+.notification-page-item.danger {
+    border-left: 6px solid #ef4444;
+}
+
+.notification-page-item.success {
+    border-left: 6px solid #22c55e;
+}
+
+.notification-page-item.info {
+    border-left: 6px solid #60a5fa;
+}
+
+.notification-page-item-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 8px;
+}
+
+    .notification-page-item-header h3 {
+        margin: 0;
+        color: var(--white);
+        font-size: 17px;
+        font-weight: 900;
+    }
+
+.notification-page-item-time {
+    color: var(--muted);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.notification-page-item p {
+    margin: 0 0 12px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.notification-page-item-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mark-read-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 9px 12px;
+    color: white;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.notifications-empty {
+    padding: 42px 20px;
+    text-align: center;
+    color: var(--muted);
+}
+
+    .notifications-empty i {
+        display: block;
+        font-size: 40px;
+        margin-bottom: 12px;
+        color: var(--pink);
+    }
+
+@media (max-width: 800px) {
+    .notifications-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .notification-page-item-header {
+        flex-direction: column;
+    }
+}

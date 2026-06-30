@@ -1,285 +1,283 @@
-﻿let currentGoalId = null;
-let currentGoalCurrency = 1;
-
-document.addEventListener("DOMContentLoaded", async () => {
+﻿document.addEventListener("DOMContentLoaded", async () => {
     requireAuth();
 
     renderSidebar("saving-goals");
     renderTopbar("Saving Goal Details");
 
-    currentGoalId = getGoalIdFromUrl();
+    const goalId = new URLSearchParams(window.location.search).get("id");
 
-    if (!currentGoalId) {
-        document.getElementById("detailsContainer").innerHTML = `
-            <div class="card empty-state-box">
-                <h3>Saving goal not found</h3>
-                <p>The selected saving goal could not be loaded.</p>
-                <a class="btn" href="./saving-goals.html">Back to goals</a>
-            </div>`;
+    if (!goalId) {
+        showToast("Saving goal id is missing.", "error");
         return;
     }
 
-    await loadGoalDetails();
+    await loadSavingGoalDetails(goalId);
 });
 
-function getGoalIdFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("id");
-}
-
-async function loadGoalDetails() {
-    const container = document.getElementById("detailsContainer");
-
+async function loadSavingGoalDetails(goalId) {
     try {
-        const goal = await apiRequest(`/SavingGoals/details/${currentGoalId}`);
+        const details = await getSavingGoalDetails(goalId);
 
-        currentGoalCurrency = Number(goal.currency) || 1;
+        if (!details) {
+            showToast("Saving goal details could not be loaded.", "error");
+            return;
+        }
 
-        container.innerHTML = renderGoalDetails(goal);
+        console.log("Saving goal details:", details);
 
-        document
-            .getElementById("addContributionForm")
-            .addEventListener("submit", addContribution);
+        renderGoalMain(details);
+        renderGoalOverview(details);
+        renderGoalStatistics(details);
+        renderContributionHistory(details.contributions || [], details.currency);
     } catch (error) {
         console.error(error);
-
-        container.innerHTML = `
-            <div class="card empty-state-box">
-                <img class="empty-visual" src="${currentIllustration("noData")}" alt="No data">
-                <h3>Could not load saving goal</h3>
-                <p>Please try again later.</p>
-                <a class="btn" href="./saving-goals.html">Back to goals</a>
-            </div>`;
+        showToast("Saving goal details could not be loaded.", "error");
     }
 }
 
-function renderGoalDetails(goal) {
-    const currency = currencyLabel(goal.currency);
-    const progress = Math.min(Number(goal.progressPercentage || 0), 100);
-    const estimatedText = formatEstimatedWeeks(goal.estimatedWeeksToComplete);
-    const recommendedText = formatRecommended(goal.recommendedWeeklyContribution, currency);
+async function getSavingGoalDetails(goalId) {
+    /*
+     * Incercam mai multe variante, ca sa mearga indiferent cum ai endpoint-ul in controller.
+     */
+    const endpoints = [
+        `/SavingGoals/${goalId}/details`,
+        `/SavingGoals/details/${goalId}`,
+        `/SavingGoals/${goalId}`
+    ];
 
-    return `
-        <a href="./saving-goals.html" class="back-link">
-            <i class="fa-solid fa-arrow-left"></i>
-            Back to saving goals
-        </a>
+    for (const endpoint of endpoints) {
+        try {
+            const result = await apiRequest(endpoint);
 
-        <section class="goal-details-hero">
-            <article class="card goal-main-card">
-                <div class="goal-title-row">
-                    <div>
-                        <h2>${safeText(goal.name)}</h2>
-                        <p>${safeText(goal.smartMessage)}</p>
-                    </div>
-
-                    <div class="goal-icon-badge">
-                        <i class="fa-solid fa-piggy-bank"></i>
-                    </div>
-                </div>
-
-                <div class="goal-amounts-grid">
-                    <div class="goal-mini-stat">
-                        <span>Target amount</span>
-                        <strong>${formatMoney(goal.targetAmount, currency)}</strong>
-                    </div>
-
-                    <div class="goal-mini-stat">
-                        <span>Already saved</span>
-                        <strong>${formatMoney(goal.currentAmount, currency)}</strong>
-                    </div>
-
-                    <div class="goal-mini-stat">
-                        <span>Remaining</span>
-                        <strong>${formatMoney(goal.remainingAmount, currency)}</strong>
-                    </div>
-                </div>
-
-                <div class="goal-progress-large">
-                    <div class="goal-progress-header">
-                        <span>Progress</span>
-                        <strong>${progress.toFixed(0)}%</strong>
-                    </div>
-
-                    <div class="progress">
-                        <div class="progress-fill" style="width:${progress}%"></div>
-                    </div>
-                </div>
-
-                <div class="goal-smart-message">
-                    <i class="fa-solid fa-chart-line"></i>
-                    ${safeText(goal.smartMessage)}
-                </div>
-            </article>
-
-            <article class="card goal-insight-card">
-                <div class="card-header">
-                    <h2>Goal overview</h2>
-                </div>
-
-                <div class="goal-overview-illustration">
-                    <img src="${currentIllustration("savings")}" alt="Saving goal overview">
-                </div>
-
-                <div class="goal-overview-list">
-                    <div>
-                        <span>Estimated time</span>
-                        <strong>${estimatedText}</strong>
-                    </div>
-
-                    <div>
-                        <span>Recommended weekly contribution</span>
-                        <strong>${recommendedText}</strong>
-                    </div>
-
-                    <div>
-                        <span>Deadline</span>
-                        <strong>${formatDate(goal.deadline)}</strong>
-                    </div>
-                </div>
-            </article>
-        </section>
-
-        <section class="goal-details-grid">
-            <article class="card">
-                <div class="card-header">
-                    <h2>Smart statistics</h2>
-                </div>
-
-                <div class="analytics-grid">
-                    <div class="analytics-card">
-                        <span>Total contributed</span>
-                        <strong>${formatMoney(goal.totalContributed, currency)}</strong>
-                    </div>
-
-                    <div class="analytics-card">
-                        <span>Average weekly saving</span>
-                        <strong>${formatMoney(goal.averageWeeklySaving, currency)}</strong>
-                    </div>
-
-                    <div class="analytics-card">
-                        <span>Average monthly saving</span>
-                        <strong>${formatMoney(goal.averageMonthlySaving, currency)}</strong>
-                    </div>
-
-                    <div class="analytics-card">
-                        <span>Estimated time</span>
-                        <strong>${estimatedText}</strong>
-                    </div>
-
-                    <div class="analytics-card">
-                        <span>Estimated completion</span>
-                        <strong>${formatDate(goal.estimatedCompletionDate)}</strong>
-                    </div>
-
-                    <div class="analytics-card">
-                        <span>Recommended weekly amount</span>
-                        <strong>${recommendedText}</strong>
-                    </div>
-                </div>
-
-                <form id="addContributionForm" class="add-contribution-form">
-                    <input type="number" step="0.01" id="contributionAmount" placeholder="Add amount" required>
-
-                    <select id="contributionCurrency">
-                        <option value="1">RON</option>
-                        <option value="2">EUR</option>
-                        <option value="3">USD</option>
-                        <option value="4">GBP</option>
-                    </select>
-
-                    <textarea id="contributionNote" placeholder="Optional note, for example: salary bonus, gift, monthly saving"></textarea>
-
-                    <button class="btn" type="submit">
-                        <i class="fa-solid fa-plus"></i>
-                        Add contribution
-                    </button>
-                </form>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <h2>Contribution history</h2>
-                </div>
-
-                ${renderContributions(goal.contributions, currency)}
-            </article>
-        </section>
-    `;
-}
-
-function renderContributions(contributions, currency) {
-    if (!contributions || contributions.length === 0) {
-        return `
-            <div class="empty-state-box">
-                <img class="empty-visual" src="${currentIllustration("savings")}" alt="No contributions">
-                <h3>No contributions yet</h3>
-                <p>Add money to this goal and the history will appear here.</p>
-            </div>`;
+            if (result) {
+                return result;
+            }
+        } catch (error) {
+            console.warn(`Endpoint failed: ${endpoint}`, error);
+        }
     }
 
-    return `
-        <div class="contributions-list">
-            ${contributions.map(item => `
-                <div class="contribution-row">
-                    <div>
-                        <strong>+${formatMoney(item.amount, currency)}</strong>
-                        <span>${formatDate(item.createdAt)}</span>
-                        ${item.note ? `<span>${safeText(item.note)}</span>` : ""}
-                    </div>
-
-                    <div>
-                        <span>Original</span>
-                        <strong>${formatMoney(item.originalAmount, currencyLabel(item.currency))}</strong>
-                    </div>
-                </div>
-            `).join("")}
-        </div>
-    `;
+    return null;
 }
 
-async function addContribution(event) {
-    event.preventDefault();
+function renderGoalMain(details) {
+    const name = details.name || details.Name || "Saving goal";
 
-    const amount = Number(document.getElementById("contributionAmount").value);
-    const currency = Number(document.getElementById("contributionCurrency").value);
-    const note = document.getElementById("contributionNote").value.trim();
+    const targetAmount = Number(details.targetAmount ?? details.TargetAmount ?? 0);
+    const currentAmount = Number(details.currentAmount ?? details.CurrentAmount ?? 0);
+    const remainingAmount = Number(
+        details.remainingAmount ??
+        details.RemainingAmount ??
+        Math.max(targetAmount - currentAmount, 0)
+    );
 
-    if (amount <= 0) {
-        showToast("Enter a valid amount.", "error");
+    const progress = Number(details.progressPercentage ?? details.ProgressPercentage ?? 0);
+    const currency = getCurrencyText(details.currency ?? details.Currency);
+
+    const estimatedWeeks = details.estimatedWeeksToComplete ??
+        details.EstimatedWeeksToComplete ??
+        details.estimatedWeeks ??
+        details.EstimatedWeeks ??
+        null;
+
+    const smartMessage = details.smartMessage ??
+        details.SmartMessage ??
+        buildPredictionText(estimatedWeeks);
+
+    setText("goalName", name);
+    setText("goalPredictionText", smartMessage);
+    setText("goalPredictionBoxText", smartMessage);
+
+    setText("goalTargetAmount", formatGoalMoney(targetAmount, currency));
+    setText("goalCurrentAmount", formatGoalMoney(currentAmount, currency));
+    setText("goalRemainingAmount", formatGoalMoney(remainingAmount, currency));
+
+    setText("goalProgressPercent", `${progress.toFixed(0)}%`);
+
+    const progressBar = document.getElementById("goalProgressBar");
+
+    if (progressBar) {
+        progressBar.style.width = `${Math.min(progress, 100)}%`;
+    }
+}
+
+function renderGoalOverview(details) {
+    const progress = Number(details.progressPercentage ?? details.ProgressPercentage ?? 0);
+
+    const estimatedWeeks = details.estimatedWeeksToComplete ??
+        details.EstimatedWeeksToComplete ??
+        details.estimatedWeeks ??
+        details.EstimatedWeeks ??
+        null;
+
+    const recommendedWeekly = Number(
+        details.recommendedWeeklyContribution ??
+        details.RecommendedWeeklyContribution ??
+        0
+    );
+
+    const deadline = details.deadline ?? details.Deadline ?? null;
+    const currency = getCurrencyText(details.currency ?? details.Currency);
+
+    renderProgressCircle(progress);
+
+    setText("overviewEstimatedTime", buildEstimatedWeeksText(estimatedWeeks));
+    setText("overviewRecommendedWeekly", formatGoalMoney(recommendedWeekly, currency));
+    setText("overviewDeadline", deadline ? formatDate(deadline) : "-");
+}
+
+function renderGoalStatistics(details) {
+    const currency = getCurrencyText(details.currency ?? details.Currency);
+
+    const totalContributed = Number(
+        details.totalContributed ??
+        details.TotalContributed ??
+        details.currentAmount ??
+        details.CurrentAmount ??
+        0
+    );
+
+    const averageWeekly = Number(
+        details.averageWeeklySaving ??
+        details.AverageWeeklySaving ??
+        0
+    );
+
+    const averageMonthly = Number(
+        details.averageMonthlySaving ??
+        details.AverageMonthlySaving ??
+        0
+    );
+
+    const estimatedWeeks = details.estimatedWeeksToComplete ??
+        details.EstimatedWeeksToComplete ??
+        details.estimatedWeeks ??
+        details.EstimatedWeeks ??
+        null;
+
+    const estimatedCompletionDate = details.estimatedCompletionDate ??
+        details.EstimatedCompletionDate ??
+        null;
+
+    const recommendedWeekly = Number(
+        details.recommendedWeeklyContribution ??
+        details.RecommendedWeeklyContribution ??
+        0
+    );
+
+    setText("statTotalContributed", formatGoalMoney(totalContributed, currency));
+    setText("statAverageWeekly", formatGoalMoney(averageWeekly, currency));
+    setText("statAverageMonthly", formatGoalMoney(averageMonthly, currency));
+    setText("statEstimatedTime", buildEstimatedWeeksText(estimatedWeeks));
+    setText("statEstimatedCompletion", estimatedCompletionDate ? formatDate(estimatedCompletionDate) : "-");
+    setText("statRecommendedWeekly", formatGoalMoney(recommendedWeekly, currency));
+}
+
+function renderContributionHistory(contributions, currencyValue) {
+    const container = document.getElementById("contributionHistory");
+
+    if (!container) {
         return;
     }
 
-    try {
-        await apiRequest(`/SavingGoals/${currentGoalId}/add-money`, "POST", {
-            amount,
-            currency,
-            note
-        });
+    const currency = getCurrencyText(currencyValue);
 
-        showToast("Contribution added successfully.");
-        await loadGoalDetails();
-    } catch (error) {
-        showToast(error.message || "Contribution could not be added.", "error");
+    if (!contributions || contributions.length === 0) {
+        container.innerHTML = `
+            <div class="empty-box">
+                No contributions yet.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = contributions
+        .slice()
+        .reverse()
+        .map(item => {
+            const amount = Number(item.amount ?? item.Amount ?? 0);
+            const createdAt = item.createdAt ?? item.CreatedAt ?? item.date ?? item.Date ?? null;
+            const note = item.note ?? item.Note ?? item.source ?? item.Source ?? "Contribution";
+
+            return `
+                <div class="contribution-row">
+                    <div>
+                        <strong>+${formatGoalMoney(amount, currency)}</strong>
+                        <span>${createdAt ? formatDate(createdAt) : "-"}</span>
+                    </div>
+
+                    <div>
+                        <span>${safeText(note)}</span>
+                    </div>
+                </div>
+            `;
+        })
+        .join("");
+}
+
+function renderProgressCircle(progress) {
+    const safeProgress = Math.max(0, Math.min(100, Number(progress || 0)));
+
+    const circle = document.getElementById("goalProgressCircle");
+    const value = document.getElementById("goalProgressCircleValue");
+
+    if (circle) {
+        circle.style.setProperty("--progress", safeProgress);
+    }
+
+    if (value) {
+        value.textContent = `${safeProgress.toFixed(0)}%`;
     }
 }
 
-function formatEstimatedWeeks(value) {
-    if (value === null || value === undefined) {
-        return "Not enough data";
+function buildPredictionText(estimatedWeeks) {
+    if (!estimatedWeeks || Number(estimatedWeeks) <= 0) {
+        return "Add more contributions to receive a better prediction.";
     }
 
-    if (Number(value) === 0) {
-        return "Completed";
-    }
-
-    return `${value} week(s)`;
+    return `At your current pace, you can complete this goal in about ${Math.ceil(Number(estimatedWeeks))} week(s).`;
 }
 
-function formatRecommended(value, currency) {
-    if (value === null || value === undefined) {
-        return "Set a deadline";
+function buildEstimatedWeeksText(estimatedWeeks) {
+    if (!estimatedWeeks || Number(estimatedWeeks) <= 0) {
+        return "-";
     }
 
-    return formatMoney(value, currency);
+    return `${Math.ceil(Number(estimatedWeeks))} week(s)`;
+}
+
+function formatGoalMoney(value, currency) {
+    const amount = Number(value || 0);
+
+    return `${amount.toFixed(2)} ${currency}`;
+}
+
+function getCurrencyText(currency) {
+    if (currency === null || currency === undefined) {
+        return "RON";
+    }
+
+    const value = String(currency);
+
+    if (value === "0") {
+        return "RON";
+    }
+
+    if (value === "1") {
+        return "EUR";
+    }
+
+    if (value === "2") {
+        return "USD";
+    }
+
+    return value;
+}
+
+function setText(id, value) {
+    const element = document.getElementById(id);
+
+    if (element) {
+        element.textContent = value;
+    }
 }

@@ -171,7 +171,6 @@ function renderSidebar(activePage) {
 
     updateThemeAssets();
 }
-
 function renderTopbar(title) {
     applyTheme();
 
@@ -192,9 +191,34 @@ function renderTopbar(title) {
         </div>
 
         <div class="user-pill">
-            <button class="theme-toggle" onclick="toggleTheme()" title="Change theme">
-                <i id="themeIcon" class="${themeIconClass}"></i>
-            </button>
+            <div class="topbar-actions">
+                <div class="notification-wrapper">
+                    <button 
+                        id="notificationBell"
+                        class="theme-toggle notification-bell-button" 
+                        type="button"
+                        title="Notifications"
+                    >
+                        <i class="fa-regular fa-bell"></i>
+                        <span id="notificationBadge" class="notification-badge hidden">0</span>
+                    </button>
+
+                    <div id="notificationDropdown" class="notification-dropdown hidden">
+                        <div class="notification-dropdown-header">
+                            <h3>Notifications</h3>
+                            <a href="../Notifications/notifications.html">View all</a>
+                        </div>
+
+                        <div id="notificationDropdownList" class="notification-dropdown-list">
+                            <div class="notification-empty">No notifications yet.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="theme-toggle" onclick="toggleTheme()" title="Change theme">
+                    <i id="themeIcon" class="${themeIconClass}"></i>
+                </button>
+            </div>
 
             <img 
                 class="user-avatar"
@@ -210,6 +234,10 @@ function renderTopbar(title) {
     `;
 
     updateThemeAssets();
+
+    if (typeof initializeNotificationCenter === "function") {
+        initializeNotificationCenter();
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

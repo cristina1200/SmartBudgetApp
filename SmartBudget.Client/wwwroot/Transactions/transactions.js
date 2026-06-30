@@ -113,6 +113,9 @@ async function createTransaction(event) {
         document.getElementById("date").value = todayIso();
 
         await loadTransactions();
+        if (typeof loadNotificationCenter === "function") {
+            await loadNotificationCenter();
+        }
     } catch (error) {
         showMessage(
             "transactionMessage",
@@ -206,6 +209,9 @@ async function saveReceiptExpense() {
         lastReceiptScan = null;
 
         await loadTransactions();
+        if (typeof loadNotificationCenter === "function") {
+            await loadNotificationCenter();
+        }
     } catch (error) {
         showToast(error.message || "Expense could not be saved.", "error");
     }
