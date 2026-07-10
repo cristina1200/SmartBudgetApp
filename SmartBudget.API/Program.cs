@@ -116,6 +116,7 @@ builder.Services.AddHttpClient<ICurrencyConverterService, CurrencyConverterServi
 builder.Services.AddScoped<IReceiptOcrService, ReceiptOcrService>();
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IDefaultCategoryService, DefaultCategoryService>();
 
 var app = builder.Build();
 

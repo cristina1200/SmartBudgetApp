@@ -11,10 +11,13 @@ namespace SmartBudget.Server.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-
-        public CategoriesController(ICategoryService categoryService)
+        private readonly IDefaultCategoryService _defaultCategoryService;
+        public CategoriesController(
+     ICategoryService categoryService,
+     IDefaultCategoryService defaultCategoryService)
         {
             _categoryService = categoryService;
+            _defaultCategoryService = defaultCategoryService;
         }
 
         [HttpGet]
@@ -70,6 +73,14 @@ namespace SmartBudget.Server.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("default/{userId}")]
+        public async Task<IActionResult> CreateDefaultCategories(int userId)
+        {
+            await _defaultCategoryService.CreateDefaultCategoriesForUserAsync(userId);
+
+            return Ok("Default categories created.");
         }
     }
 }

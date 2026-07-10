@@ -11,13 +11,16 @@ namespace SmartBudget.Server.Services.Implementations
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtService _jwtService;
+        private readonly IDefaultCategoryService _defaultCategoryService;
 
         public AuthService(
             IUserRepository userRepository,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IDefaultCategoryService defaultCategoryService)
         {
             _userRepository = userRepository;
             _jwtService = jwtService;
+            _defaultCategoryService = defaultCategoryService;
         }
 
         public async Task<AuthResponseDto?> RegisterAsync(RegisterDto dto)
@@ -41,6 +44,8 @@ namespace SmartBudget.Server.Services.Implementations
 
             await _userRepository.CreateAsync(user);
 
+            await _defaultCategoryService.CreateDefaultCategoriesForUserAsync(user.Id);
+
             var token = _jwtService.GenerateToken(user);
 
             return new AuthResponseDto
@@ -48,7 +53,8 @@ namespace SmartBudget.Server.Services.Implementations
                 Token = token,
                 UserId = user.Id,
                 FullName = $"{user.FirstName} {user.LastName}",
-                Email = user.Email
+                Email = user.Email,
+                Role = user.Role.ToString()
             };
         }
 
@@ -79,7 +85,8 @@ namespace SmartBudget.Server.Services.Implementations
                 Token = token,
                 UserId = user.Id,
                 FullName = $"{user.FirstName} {user.LastName}",
-                Email = user.Email
+                Email = user.Email,
+                Role = user.Role.ToString()
             };
         }
     }

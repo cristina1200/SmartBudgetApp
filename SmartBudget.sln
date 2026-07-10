@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBudget.Server", "Smart
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBudget.Client", "SmartBudget.Client\SmartBudget.Client.csproj", "{55EB18B7-07A0-423E-B029-612A69C20820}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBudget.Tests", "SmartBudget.Tests\SmartBudget.Tests.csproj", "{70C33682-E38D-4665-A5F1-0F38A8ED4557}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{55EB18B7-07A0-423E-B029-612A69C20820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55EB18B7-07A0-423E-B029-612A69C20820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55EB18B7-07A0-423E-B029-612A69C20820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70C33682-E38D-4665-A5F1-0F38A8ED4557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C33682-E38D-4665-A5F1-0F38A8ED4557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C33682-E38D-4665-A5F1-0F38A8ED4557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C33682-E38D-4665-A5F1-0F38A8ED4557}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
